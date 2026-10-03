@@ -29,7 +29,7 @@ namespace FileManager
                 }
                 foreach (var file in files)
                 {
-                    FilesTable.Rows.Add(file.Name, file.LastModified, file.Type, file.Size);
+                    FilesTable.Rows.Add(file.Name, file.LastModified, file.Type, FileService.GetFormattedSize(file.Size));
                 }
             }
             catch (DirectoryNotFoundException)

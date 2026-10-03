@@ -138,7 +138,7 @@
             // 
             // FileSize
             // 
-            this.FileSize.HeaderText = "Размер файла (в байтах)";
+            this.FileSize.HeaderText = "Размер файла";
             this.FileSize.MinimumWidth = 6;
             this.FileSize.Name = "FileSize";
             this.FileSize.ReadOnly = true;
