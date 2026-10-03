@@ -19,6 +19,12 @@ namespace FileManager
         private void LoadDirectory(string path)
         {
             FilesTable.Rows.Clear();
+
+            if (Directory.GetParent(path) != null)
+            {
+                FilesTable.Rows.Add("...");
+            }
+
             try
             {
                 var files = FileService.GetDirectoryFiles(path);
@@ -59,6 +65,15 @@ namespace FileManager
         {
             if (e.RowIndex < 0) return;
 
+            string fileName = FilesTable.Rows[e.RowIndex].Cells["FileName"].Value.ToString();
+            if (fileName == "...")
+            {
+                string parentPath = Directory.GetParent(DirPathTextBox.Text).FullName;
+                DirPathTextBox.Text = parentPath;
+                LoadDirectory(parentPath);
+                return;
+            }
+
             string fileType = FilesTable.Rows[e.RowIndex].Cells["FileType"].Value.ToString();
             if (fileType != "Каталог")
             {
@@ -66,7 +81,6 @@ namespace FileManager
                 return;
             }
 
-            string fileName = FilesTable.Rows[e.RowIndex].Cells["FileName"].Value.ToString();
             string newPath = Path.Combine(DirPathTextBox.Text, fileName);
             DirPathTextBox.Text = newPath;
 
