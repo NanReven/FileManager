@@ -33,10 +33,10 @@
             this.btnApply = new System.Windows.Forms.Button();
             this.DirPathTextBox = new System.Windows.Forms.TextBox();
             this.FilesTable = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileLastModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FilesTable)).BeginInit();
             this.SuspendLayout();
@@ -99,10 +99,10 @@
             this.FilesTable.BackgroundColor = System.Drawing.SystemColors.Control;
             this.FilesTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.FilesTable.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Column1,
-            this.Column2,
-            this.Column3,
-            this.Column4});
+            this.FileName,
+            this.FileLastModified,
+            this.FileType,
+            this.FileSize});
             this.tableLayoutPanel1.SetColumnSpan(this.FilesTable, 2);
             this.FilesTable.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FilesTable.Location = new System.Drawing.Point(3, 61);
@@ -113,34 +113,35 @@
             this.FilesTable.RowTemplate.Height = 24;
             this.FilesTable.Size = new System.Drawing.Size(1007, 294);
             this.FilesTable.TabIndex = 3;
+            this.FilesTable.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FilesTable_CellDoubleClick);
             // 
-            // Column1
+            // FileName
             // 
-            this.Column1.HeaderText = "Имя файла";
-            this.Column1.MinimumWidth = 6;
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
+            this.FileName.HeaderText = "Имя файла";
+            this.FileName.MinimumWidth = 6;
+            this.FileName.Name = "FileName";
+            this.FileName.ReadOnly = true;
             // 
-            // Column2
+            // FileLastModified
             // 
-            this.Column2.HeaderText = "Дата изменения";
-            this.Column2.MinimumWidth = 6;
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
+            this.FileLastModified.HeaderText = "Дата изменения";
+            this.FileLastModified.MinimumWidth = 6;
+            this.FileLastModified.Name = "FileLastModified";
+            this.FileLastModified.ReadOnly = true;
             // 
-            // Column3
+            // FileType
             // 
-            this.Column3.HeaderText = "Тип";
-            this.Column3.MinimumWidth = 6;
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
+            this.FileType.HeaderText = "Тип";
+            this.FileType.MinimumWidth = 6;
+            this.FileType.Name = "FileType";
+            this.FileType.ReadOnly = true;
             // 
-            // Column4
+            // FileSize
             // 
-            this.Column4.HeaderText = "Размер файла (в байтах)";
-            this.Column4.MinimumWidth = 6;
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
+            this.FileSize.HeaderText = "Размер файла (в байтах)";
+            this.FileSize.MinimumWidth = 6;
+            this.FileSize.Name = "FileSize";
+            this.FileSize.ReadOnly = true;
             // 
             // MainForm
             // 
@@ -166,10 +167,10 @@
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.TextBox DirPathTextBox;
         private System.Windows.Forms.DataGridView FilesTable;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileLastModified;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FileSize;
     }
 }
 
