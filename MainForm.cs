@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -10,6 +10,7 @@ namespace FileManager
     {
         private List<FileItem> _files = new List<FileItem>();
         private bool _isReportMode = false;
+        private string _currentPath;
 
         public MainForm()
         {
@@ -23,22 +24,35 @@ namespace FileManager
 
         private void LoadDirectory(string path)
         {
-            FilesTable.Rows.Clear();
-            _files.Clear();
-            _isReportMode = false;
-
-            if (Directory.GetParent(path) != null)
+            if (!Directory.Exists(path))
             {
-                FilesTable.Rows.Add("...");
+                MessageBox.Show("Директория не найдена");
+                if (_currentPath != null)
+                    DirPathTextBox.Text = _currentPath;
+                return;
             }
+
+            _isReportMode = false;
+            _currentPath = path;
+            DirPathTextBox.Text = path;
 
             try
             {
-                _files = FileService.GetDirectoryFiles(path);
+                List<FileItem> files = FileService.GetDirectoryFiles(path);
+
+                FilesTable.Rows.Clear();
+                _files.Clear();
+                _files = files;
+
                 if (_files.Count == 0)
                 {
                     MessageBox.Show("В директории нет файлов");
                     return;
+                }
+
+                if (Directory.GetParent(path) != null)
+                {
+                    FilesTable.Rows.Add("...");
                 }
 
                 UpdateTable();
@@ -56,14 +70,11 @@ namespace FileManager
         private void btnApply_Click(object sender, EventArgs e)
         {
             string path = DirPathTextBox.Text;
-
             if (string.IsNullOrEmpty(path))
             {
                 MessageBox.Show("Введите путь к каталогу");
                 return;
             }
-
-            _isReportMode = false;
             LoadDirectory(path);
         }
 
@@ -80,8 +91,7 @@ namespace FileManager
             string fileName = FilesTable.Rows[e.RowIndex].Cells["FileName"].Value.ToString();
             if (fileName == "...")
             {
-                string parentPath = Directory.GetParent(DirPathTextBox.Text).FullName;
-                DirPathTextBox.Text = parentPath;
+                string parentPath = Directory.GetParent(_currentPath).FullName;
                 LoadDirectory(parentPath);
                 return;
             }
@@ -91,10 +101,16 @@ namespace FileManager
             {
                 MessageBox.Show("Файл данной строки не является каталогом");
                 return;
-            }
+            } 
 
-            string newPath = Path.Combine(DirPathTextBox.Text, fileName);
-            DirPathTextBox.Text = newPath;
+            string newPath = Path.Combine(_currentPath, fileName);
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(newPath);
+            if (directoryInfo.Attributes.HasFlag(FileAttributes.Hidden))
+            {
+                MessageBox.Show("Каталог скрыт");
+                return;
+            }
 
             LoadDirectory(newPath);
         }
@@ -185,7 +201,11 @@ namespace FileManager
 
             foreach (FileItem file in _files)
             {
-                FilesTable.Rows.Add(file.Name, file.LastModified, file.Type, FileService.GetFormattedSize(file.Size));
+                int index = FilesTable.Rows.Add(file.Name, file.LastModified, file.Type, FileService.GetFormattedSize(file.Size));
+                if (file.Type == "Каталог")
+                {
+                    FilesTable.Rows[index].DefaultCellStyle.BackColor = Color.PowderBlue;
+                }
             }
         }
     }
