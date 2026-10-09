@@ -4,8 +4,9 @@ using System.IO;
 
 namespace FileManager
 {
-    internal class FileItem
+    public class FileItem
     {
+        public FileItem() { }
         public string Name { get; set; }
         public DateTime LastModified { get; set; }
         public string Type { get; set; }

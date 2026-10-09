@@ -37,6 +37,8 @@
             this.FileLastModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FileSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnSaveData = new System.Windows.Forms.Button();
+            this.btnLoadData = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FilesTable)).BeginInit();
             this.SuspendLayout();
@@ -143,11 +145,32 @@
             this.FileSize.Name = "FileSize";
             this.FileSize.ReadOnly = true;
             // 
+            // btnSaveData
+            // 
+            this.btnSaveData.Location = new System.Drawing.Point(521, 424);
+            this.btnSaveData.Name = "btnSaveData";
+            this.btnSaveData.Size = new System.Drawing.Size(235, 27);
+            this.btnSaveData.TabIndex = 1;
+            this.btnSaveData.Text = "Сохранение данных в XML/JSON";
+            this.btnSaveData.UseVisualStyleBackColor = true;
+            this.btnSaveData.Click += new System.EventHandler(this.btnSaveData_Click);
+            // 
+            // btnLoadData
+            // 
+            this.btnLoadData.Location = new System.Drawing.Point(787, 424);
+            this.btnLoadData.Name = "btnLoadData";
+            this.btnLoadData.Size = new System.Drawing.Size(235, 27);
+            this.btnLoadData.TabIndex = 2;
+            this.btnLoadData.Text = "Загрузка данных из XML/JSON";
+            this.btnLoadData.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1131, 546);
+            this.Controls.Add(this.btnLoadData);
+            this.Controls.Add(this.btnSaveData);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainForm";
@@ -171,6 +194,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FileLastModified;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileType;
         private System.Windows.Forms.DataGridViewTextBoxColumn FileSize;
+        private System.Windows.Forms.Button btnSaveData;
+        private System.Windows.Forms.Button btnLoadData;
     }
 }
 
