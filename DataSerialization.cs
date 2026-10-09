@@ -28,5 +28,22 @@ namespace FileManager
             string jsonString = JsonSerializer.Serialize(files, options);
             File.WriteAllText(filePath, jsonString);
         }
+
+        public static List<FileItem> LoadDataAsXML(string filePath)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<FileItem>));
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                return (List<FileItem>)serializer.Deserialize(reader);
+            }
+        }
+
+        public static List<FileItem> LoadDataAsJSON(string filePath)
+        {
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                return JsonSerializer.Deserialize<List<FileItem>>(reader.ReadToEnd());
+            }
+        }
     }
 }

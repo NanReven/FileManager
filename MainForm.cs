@@ -9,6 +9,7 @@ namespace FileManager
     public partial class MainForm : Form
     {
         private List<FileItem> _files = new List<FileItem>();
+        private bool _isReportMode = false;
 
         public MainForm()
         {
@@ -24,6 +25,7 @@ namespace FileManager
         {
             FilesTable.Rows.Clear();
             _files.Clear();
+            _isReportMode = false;
 
             if (Directory.GetParent(path) != null)
             {
@@ -38,10 +40,8 @@ namespace FileManager
                     MessageBox.Show("В директории нет файлов");
                     return;
                 }
-                foreach (var file in _files)
-                {
-                    FilesTable.Rows.Add(file.Name, file.LastModified, file.Type, FileService.GetFormattedSize(file.Size));
-                }
+
+                UpdateTable();
             }
             catch (DirectoryNotFoundException)
             {
@@ -63,12 +63,19 @@ namespace FileManager
                 return;
             }
 
+            _isReportMode = false;
             LoadDirectory(path);
         }
 
         private void FilesTable_CellDoubleClick(Object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
+
+            if (_isReportMode)
+            {
+                MessageBox.Show("Навигация недоступна в режиме просмотра отчета");
+                return;
+            }
 
             string fileName = FilesTable.Rows[e.RowIndex].Cells["FileName"].Value.ToString();
             if (fileName == "...")
@@ -128,6 +135,57 @@ namespace FileManager
                         MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}");
                     }
                 }
+            }
+        }
+
+        private void btnLoadData_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = DirPathTextBox.Text;
+                openFileDialog.Title = "Загрузить таблицу";
+
+                openFileDialog.Filter = "Формат XML (*.xml)|*.xml|Формат JSON (*.json)|*.json";
+                openFileDialog.AddExtension = true;
+                openFileDialog.CheckPathExists = true;
+                openFileDialog.CheckFileExists = true;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    string fileExtension = Path.GetExtension(filePath);
+                    try
+                    {
+                        if (fileExtension == ".xml")
+                        {
+                            _files = DataSerialization.LoadDataAsXML(filePath);
+                        }
+                        else if (fileExtension == ".json")
+                        {
+                            _files = DataSerialization.LoadDataAsJSON(filePath);
+                        }
+
+                        _isReportMode = true;
+                        DirPathTextBox.Text = "Режим просмотра отчета";
+
+                        UpdateTable();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при загрузке файла: {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private void UpdateTable()
+        {
+            if (_files == null) return;
+            if (_isReportMode) FilesTable.Rows.Clear();
+
+            foreach (FileItem file in _files)
+            {
+                FilesTable.Rows.Add(file.Name, file.LastModified, file.Type, FileService.GetFormattedSize(file.Size));
             }
         }
     }

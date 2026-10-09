@@ -163,6 +163,7 @@
             this.btnLoadData.TabIndex = 2;
             this.btnLoadData.Text = "Загрузка данных из XML/JSON";
             this.btnLoadData.UseVisualStyleBackColor = true;
+            this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
             // 
             // MainForm
             // 
