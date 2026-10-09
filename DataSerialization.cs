@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Text.Encodings.Web;
 using System.Text.Json;
@@ -7,6 +6,9 @@ using System.Xml.Serialization;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Класс для работы с форматами XML и JSON 
+    /// </summary>
     internal class DataSerialization
     {
         public static void SaveDataAsXML(string filePath, List<FileItem> files)

@@ -4,6 +4,9 @@ using System.IO;
 
 namespace FileManager
 {
+    /// <summary>
+    /// Модель данных файла (каталога) для отображения в таблице
+    /// </summary>
     public class FileItem
     {
         public FileItem() { }
@@ -13,6 +16,11 @@ namespace FileManager
         public long Size { get; set; }
     }
 
+
+    /// <summary>
+    /// Класс для получения списка файлов и папок,
+    /// расчета размеров каталогов и форматирование размеров
+    /// </summary>
     internal class FileService
     {
         public static List<FileItem> GetDirectoryFiles(string path)

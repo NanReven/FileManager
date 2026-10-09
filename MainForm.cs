@@ -8,8 +8,11 @@ namespace FileManager
 {
     public partial class MainForm : Form
     {
+        /// Список файлов и папок текущей директории
         private List<FileItem> _files = new List<FileItem>();
+        /// Флаг режима просмотра отчета
         private bool _isReportMode = false;
+        /// Актуальный путь текущей директории
         private string _currentPath;
 
         public MainForm()
@@ -22,6 +25,10 @@ namespace FileManager
 
         }
 
+        /// <summary>
+        /// Функция для заполнения таблицы.
+        /// При ошибке восстанавливает текущий путь к директории в поле ввода.
+        /// </summary>
         private void LoadDirectory(string path)
         {
             if (!Directory.Exists(path))
@@ -78,6 +85,10 @@ namespace FileManager
             LoadDirectory(path);
         }
 
+        /// <summary>
+        /// Обработчик двойного клика по строке таблицы для перехода в каталог или родительскую директорию.
+        /// Блокирует навигацию в режиме просмотра отчета и запрещает переход в скрытые каталоги.
+        /// </summary>
         private void FilesTable_CellDoubleClick(Object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -115,6 +126,9 @@ namespace FileManager
             LoadDirectory(newPath);
         }
 
+        /// <summary>
+        /// Функция для экспорта данных текущей таблицы в формате XML/JSON.
+        /// </summary>
         private void btnSaveData_Click(object sender, EventArgs e)
         {
             if (_files == null || _files.Count == 0)
@@ -154,6 +168,9 @@ namespace FileManager
             }
         }
 
+        /// <summary>
+        /// Функция для импорта в таблицу из формата XML/JSON.
+        /// </summary>
         private void btnLoadData_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
